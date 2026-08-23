@@ -2,7 +2,7 @@
 
 -- Fully open source. If you want obfuscator - go to https://discord.gg/2tdsXcymZ and go to deobfuscator-and-obfuscator-here
 
--- Cataclysm DO NOT USE jnkie, luarmor. Please, if you see cataclysm hub IN jnkie, luarmor or all other service - DONT USE THAT. Official CATACLYSM - ONLY IN THIS REPO
+-- Cataclysm DO NOT USED jnkie, luarmor. Please, if you see cataclysm hub IN jnkie, luarmor or all other service - DONT USE THAT. Official CATACLYSM - ONLY IN THIS REPO
 local player = game.Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 local TweenService = game:GetService("TweenService")
