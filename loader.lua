@@ -1,4 +1,4 @@
--- Cataclysm beta
+-- Cataclysm
 
 -- Fully open source. If you want obfuscator - go to https://discord.gg/2tdsXcymZ and go to deobfuscator-and-obfuscator-here
 
