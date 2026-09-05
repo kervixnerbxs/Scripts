@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>flowering</title>
+  <title>FLOWERING</title>
   <style>
     * {
       margin: 0;
@@ -74,6 +74,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .code-block:hover {
@@ -89,11 +91,11 @@
       letter-spacing: 0.2px;
     }
 
-    .code-block code .hl {
+    .code-block .hl {
       color: #ff8cb8;
     }
 
-    .code-block code .hl2 {
+    .code-block .hl2 {
       color: #ff6b9d;
     }
 
@@ -136,43 +138,50 @@
     }
 
     .btn-primary:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
       transform: none !important;
-      box-shadow: 0 4px 20px rgba(180, 30, 100, 0.15);
+      box-shadow: none;
     }
 
-    .btn-secondary {
+    .btn-success {
+      background: linear-gradient(145deg, #2d8a4e, #1a6a3a) !important;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background: linear-gradient(145deg, #3aa85e, #208040) !important;
+    }
+
+    .btn-discord {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       padding: 0.9rem 2.8rem;
       border-radius: 60px;
-      background: rgba(255, 100, 180, 0.08);
-      border: 1px solid rgba(255, 100, 180, 0.15);
-      color: #ffb0d0;
+      background: #5865F2;
+      border: none;
+      color: #fff;
       font-weight: 600;
       font-size: 0.95rem;
       letter-spacing: 0.8px;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 30px rgba(88, 101, 242, 0.25);
       font-family: inherit;
       text-transform: uppercase;
       width: 100%;
-      backdrop-filter: blur(4px);
+      text-decoration: none;
     }
 
-    .btn-secondary:hover:not(:disabled) {
-      background: rgba(255, 100, 180, 0.18);
-      border-color: rgba(255, 100, 180, 0.3);
-      transform: translateY(-2px);
+    .btn-discord:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 50px rgba(88, 101, 242, 0.4);
+      background: #6a77f5;
     }
 
-    .btn-secondary:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-      transform: none !important;
+    .btn-discord i {
+      font-size: 1.2rem;
     }
 
     .btn-copy {
@@ -218,19 +227,29 @@
       text-transform: uppercase;
     }
 
-    .status-badge {
-      display: inline-block;
-      margin-top: 6px;
+    .status-text {
+      color: rgba(200, 160, 180, 0.3);
       font-size: 0.75rem;
-      color: rgba(255, 180, 210, 0.3);
       letter-spacing: 1px;
-      text-transform: uppercase;
+      margin-top: 0.3rem;
     }
 
-    .key-display {
-      color: #ffb8d4;
-      font-weight: 500;
-      letter-spacing: 0.5px;
+    .status-text .highlight {
+      color: #ff8cb8;
+    }
+
+    .timer-badge {
+      display: inline-block;
+      background: rgba(255, 100, 180, 0.08);
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      color: rgba(255, 180, 210, 0.3);
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      border: 1px solid rgba(255, 100, 180, 0.05);
+      margin-top: 0.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 80px;
     }
 
     .hidden {
@@ -241,191 +260,194 @@
       .card { padding: 2rem 1.2rem; border-radius: 32px; }
       .logo { font-size: 2.4rem; }
       .code-block code { font-size: 0.9rem; }
-      .btn-primary, .btn-secondary, .btn-copy { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; }
+      .btn-primary, .btn-discord, .btn-copy { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="logo">FLOWERING</div>
-    <div class="sub">key system</div>
+<div class="card">
+  <div class="logo">FLOWERING</div>
+  <div class="sub">key system</div>
 
-    <div class="code-block" id="keyDisplay">
-      <code>
-        <span id="keyText" class="key-display">click "GET KEY"</span>
-      </code>
-    </div>
-
-    <div id="statusArea" class="status-badge">
-      <span id="statusMessage">waiting</span>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn-primary" id="discordBtn">
-        <i class="fab fa-discord"></i> GET KEY
-      </button>
-
-      <button class="btn-secondary hidden" id="generateKeyBtn">
-        <i class="fas fa-key"></i> GENERATE KEY
-      </button>
-
-      <button class="btn-copy hidden" id="copyBtn">
-        <i class="fas fa-copy"></i> COPY KEY
-      </button>
-    </div>
-
-    <div class="footer-note">✦ 2026 · flowering</div>
+  <div class="code-block" id="keyDisplay">
+    <code>
+      <span id="keyText" class="key-display" style="color:rgba(200,160,180,0.2);">⚡ click "GET KEY"</span>
+    </code>
   </div>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <div id="statusArea" class="status-text">
+    <span id="statusMessage">waiting</span>
+  </div>
+  <div id="timerDisplay" class="timer-badge">⏱ 0s</div>
 
-  <script>
-    (function() {
-      "use strict";
+  <div class="btn-group">
+    <button class="btn-discord" id="discordBtn">
+      <i class="fab fa-discord"></i> GET KEY
+    </button>
 
-      const keyTextEl = document.getElementById('keyText');
-      const statusMsg = document.getElementById('statusMessage');
-      const discordBtn = document.getElementById('discordBtn');
-      const generateBtn = document.getElementById('generateKeyBtn');
-      const copyBtn = document.getElementById('copyBtn');
+    <button class="btn-primary hidden" id="generateBtn">
+      <i class="fas fa-key"></i> GENERATE KEY
+    </button>
 
-      let currentKey = '';
-      let timerInterval = null;
-      let isWaiting = false;
-      let isReady = false;
+    <button class="btn-copy hidden" id="copyBtn">
+      <i class="fas fa-copy"></i> COPY KEY
+    </button>
+  </div>
 
-      function generateRandomKey() {
-        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        let result = '';
-        for (let i = 0; i < 24; i++) {
-          if (i > 0 && i % 4 === 0) result += '-';
+  <div class="footer-note">2026 · flowering</div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<script>
+  (function() {
+    const keyText = document.getElementById('keyText');
+    const statusMsg = document.getElementById('statusMessage');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const discordBtn = document.getElementById('discordBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const copyBtn = document.getElementById('copyBtn');
+
+    let currentKey = '';
+    let timerInterval = null;
+    let isWaiting = false;
+    let isReady = false;
+
+    function generateKey() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let result = 'FLOWERING_';
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
           result += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-        return result;
+        if (i < 3) result += '-';
       }
+      return result;
+    }
 
-      function setKey(key) {
-        currentKey = key;
-        keyTextEl.textContent = key;
-        keyTextEl.style.color = '#ffb8d4';
+    function setKey(key) {
+      currentKey = key;
+      keyText.textContent = key;
+      keyText.style.color = '#ffb8d4';
+    }
+
+    function setStatus(text, color = 'rgba(200,160,180,0.3)') {
+      statusMsg.textContent = text;
+      statusMsg.style.color = color;
+    }
+
+    function setTimer(seconds) {
+      timerDisplay.textContent = `⏱ ${seconds}s`;
+    }
+
+    function resetUI() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
       }
-
-      function setStatus(text, color = 'rgba(255,180,210,0.3)') {
-        statusMsg.textContent = text;
-        statusMsg.style.color = color;
-      }
-
-      function resetUI() {
-        if (timerInterval) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-        }
-        isWaiting = false;
-        isReady = false;
-        discordBtn.disabled = false;
-        discordBtn.innerHTML = '<i class="fab fa-discord"></i> GET KEY';
-        generateBtn.classList.add('hidden');
-        copyBtn.classList.add('hidden');
-        setStatus('waiting');
-      }
-
-      function startDiscordFlow() {
-        if (isWaiting) return;
-        if (timerInterval) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-        }
-
-        // ОТКРЫВАЕМ НОВУЮ ВКЛАДКУ С DISCORD
-        window.open('https://discord.gg/s6P7uRUJMH', '_blank');
-
-        isWaiting = true;
-        isReady = false;
-        discordBtn.disabled = true;
-        discordBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 60s';
-        generateBtn.classList.add('hidden');
-        copyBtn.classList.add('hidden');
-        setStatus('waiting 60s...', '#ff8cb8');
-
-        let seconds = 60;
-        timerInterval = setInterval(() => {
-          seconds -= 1;
-          discordBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${seconds}s`;
-
-          if (seconds <= 0) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            isWaiting = false;
-            isReady = true;
-            discordBtn.disabled = false;
-            discordBtn.innerHTML = '<i class="fas fa-check"></i> READY!';
-            setStatus('ready to generate', '#ff6b9d');
-            generateBtn.classList.remove('hidden');
-            
-            // АВТОМАТИЧЕСКИ ГЕНЕРИРУЕМ КЛЮЧ СРАЗУ ПОСЛЕ 60 СЕКУНД
-            generateKeyAutomatically();
-          }
-        }, 1000);
-      }
-
-      function generateKeyAutomatically() {
-        if (!isReady) return;
-        const newKey = generateRandomKey();
-        setKey(newKey);
-        copyBtn.classList.remove('hidden');
-        setStatus('key generated · 48h valid', '#b0f0b0');
-        generateBtn.classList.add('hidden');
-        discordBtn.innerHTML = '<i class="fas fa-check"></i> READY!';
-        discordBtn.disabled = false;
-        isReady = false; // сбрасываем, чтобы нельзя было повторно сгенерировать
-      }
-
-      function handleGenerateKey() {
-        if (!isReady) return;
-        generateKeyAutomatically();
-      }
-
-      function handleCopy() {
-        if (!currentKey) return;
-        navigator.clipboard.writeText(currentKey).then(() => {
-          const original = copyBtn.innerHTML;
-          copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
-          copyBtn.style.background = 'linear-gradient(145deg, #2d8a4e, #1a6a3a)';
-          setTimeout(() => {
-            copyBtn.innerHTML = original;
-            copyBtn.style.background = '';
-          }, 2000);
-        }).catch(() => {
-          const textarea = document.createElement('textarea');
-          textarea.value = currentKey;
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          textarea.remove();
-          const original = copyBtn.innerHTML;
-          copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
-          copyBtn.style.background = 'linear-gradient(145deg, #2d8a4e, #1a6a3a)';
-          setTimeout(() => {
-            copyBtn.innerHTML = original;
-            copyBtn.style.background = '';
-          }, 2000);
-        });
-      }
-
-      discordBtn.addEventListener('click', startDiscordFlow);
-      generateBtn.addEventListener('click', handleGenerateKey);
-      copyBtn.addEventListener('click', handleCopy);
-
-      setKey('click "GET KEY"');
+      isWaiting = false;
+      isReady = false;
+      discordBtn.disabled = false;
+      discordBtn.innerHTML = '<i class="fab fa-discord"></i> GET KEY';
+      generateBtn.classList.add('hidden');
+      copyBtn.classList.add('hidden');
       setStatus('waiting');
+      setTimer(0);
+    }
 
-      window.addEventListener('beforeunload', function() {
-        if (timerInterval) clearInterval(timerInterval);
+    function startDiscordFlow() {
+      if (isWaiting) return;
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+
+      window.open('https://discord.gg/s6P7uRUJMH', '_blank');
+
+      isWaiting = true;
+      isReady = false;
+      discordBtn.disabled = true;
+      discordBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 60s';
+      generateBtn.classList.add('hidden');
+      copyBtn.classList.add('hidden');
+      setStatus('waiting for discord...', '#ff8cb8');
+
+      let seconds = 60;
+      setTimer(seconds);
+
+      timerInterval = setInterval(() => {
+        seconds -= 1;
+        discordBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${seconds}s`;
+        setTimer(seconds);
+
+        if (seconds <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          isWaiting = false;
+          isReady = true;
+          discordBtn.disabled = false;
+          discordBtn.innerHTML = '<i class="fas fa-check"></i> READY!';
+          setStatus('ready to generate', '#ff6b9d');
+          generateBtn.classList.remove('hidden');
+          generateBtn.classList.add('btn-success');
+          setTimer(0);
+        }
+      }, 1000);
+    }
+
+    function handleGenerateKey() {
+      if (!isReady) return;
+      const newKey = generateKey();
+      setKey(newKey);
+      copyBtn.classList.remove('hidden');
+      setStatus('key generated · 48h valid', '#b0f0b0');
+      generateBtn.classList.add('hidden');
+      discordBtn.innerHTML = '<i class="fas fa-check"></i> READY!';
+      discordBtn.disabled = false;
+      isReady = false;
+    }
+
+    function handleCopy() {
+      if (!currentKey) return;
+      navigator.clipboard.writeText(currentKey).then(() => {
+        const original = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
+        copyBtn.style.background = 'linear-gradient(145deg, #2d8a4e, #1a6a3a)';
+        setTimeout(() => {
+          copyBtn.innerHTML = original;
+          copyBtn.style.background = '';
+        }, 2000);
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = currentKey;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+        const original = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
+        copyBtn.style.background = 'linear-gradient(145deg, #2d8a4e, #1a6a3a)';
+        setTimeout(() => {
+          copyBtn.innerHTML = original;
+          copyBtn.style.background = '';
+        }, 2000);
       });
+    }
 
-    })();
-  </script>
+    discordBtn.addEventListener('click', startDiscordFlow);
+    generateBtn.addEventListener('click', handleGenerateKey);
+    copyBtn.addEventListener('click', handleCopy);
+
+    setKey('click "GET KEY"');
+    setStatus('waiting');
+    setTimer(0);
+
+    window.addEventListener('beforeunload', function() {
+      if (timerInterval) clearInterval(timerInterval);
+    });
+  })();
+</script>
 
 </body>
 </html>
