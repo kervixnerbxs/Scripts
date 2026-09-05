@@ -233,11 +233,6 @@
       letter-spacing: 0.5px;
     }
 
-    .timer-text {
-      color: #ff6b9d;
-      font-weight: 600;
-    }
-
     .hidden {
       display: none !important;
     }
@@ -258,12 +253,12 @@
 
     <div class="code-block" id="keyDisplay">
       <code>
-        <span id="keyText" class="key-display">Click "Get key" for get key</span>
+        <span id="keyText" class="key-display">click "GET KEY"</span>
       </code>
     </div>
 
     <div id="statusArea" class="status-badge">
-      <span id="statusMessage">Waiting</span>
+      <span id="statusMessage">waiting</span>
     </div>
 
     <div class="btn-group">
@@ -280,7 +275,7 @@
       </button>
     </div>
 
-    <div class="footer-note">2026 · flowering</div>
+    <div class="footer-note">✦ 2026 · flowering</div>
   </div>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -342,7 +337,7 @@
           timerInterval = null;
         }
 
-        // открываем дискорд в новой вкладке
+        // ОТКРЫВАЕМ НОВУЮ ВКЛАДКУ С DISCORD
         window.open('https://discord.gg/s6P7uRUJMH', '_blank');
 
         isWaiting = true;
@@ -351,7 +346,7 @@
         discordBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 60s';
         generateBtn.classList.add('hidden');
         copyBtn.classList.add('hidden');
-        setStatus('waiting for discord...', '#ff8cb8');
+        setStatus('waiting 60s...', '#ff8cb8');
 
         let seconds = 60;
         timerInterval = setInterval(() => {
@@ -367,11 +362,14 @@
             discordBtn.innerHTML = '<i class="fas fa-check"></i> READY!';
             setStatus('ready to generate', '#ff6b9d');
             generateBtn.classList.remove('hidden');
+            
+            // АВТОМАТИЧЕСКИ ГЕНЕРИРУЕМ КЛЮЧ СРАЗУ ПОСЛЕ 60 СЕКУНД
+            generateKeyAutomatically();
           }
         }, 1000);
       }
 
-      function handleGenerateKey() {
+      function generateKeyAutomatically() {
         if (!isReady) return;
         const newKey = generateRandomKey();
         setKey(newKey);
@@ -380,6 +378,12 @@
         generateBtn.classList.add('hidden');
         discordBtn.innerHTML = '<i class="fas fa-check"></i> READY!';
         discordBtn.disabled = false;
+        isReady = false; // сбрасываем, чтобы нельзя было повторно сгенерировать
+      }
+
+      function handleGenerateKey() {
+        if (!isReady) return;
+        generateKeyAutomatically();
       }
 
       function handleCopy() {
@@ -413,7 +417,7 @@
       generateBtn.addEventListener('click', handleGenerateKey);
       copyBtn.addEventListener('click', handleCopy);
 
-      setKey('⚘ click "get key"');
+      setKey('click "GET KEY"');
       setStatus('waiting');
 
       window.addEventListener('beforeunload', function() {
