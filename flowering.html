@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flowering — Evade Cheat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0408;
+      background-image:
+        radial-gradient(ellipse at 15% 25%, rgba(200, 50, 130, 0.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 75%, rgba(230, 60, 150, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(160, 30, 90, 0.15) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 0%, rgba(180, 40, 110, 0.1) 0%, transparent 30%);
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== ФОНОВЫЕ СВЕЧЕНИЯ ===== */
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow.g1 {
+      width: 600px;
+      height: 600px;
+      top: -200px;
+      right: -150px;
+      background: rgba(200, 50, 130, 0.12);
+      animation: float1 16s ease-in-out infinite alternate;
+    }
+    .glow.g2 {
+      width: 500px;
+      height: 500px;
+      bottom: -150px;
+      left: -120px;
+      background: rgba(170, 35, 100, 0.1);
+      animation: float2 13s ease-in-out infinite alternate;
+    }
+    .glow.g3 {
+      width: 400px;
+      height: 400px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 60, 160, 0.04);
+      animation: pulseGlow 7s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-120px, 90px) scale(1.5); }
+    }
+    @keyframes float2 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(110px, -80px) scale(1.6); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(2.2); }
+    }
+
+    /* ===== ПАДАЮЩИЕ ЛЕПЕСТКИ (FLOWERING) ===== */
+    .petal-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      width: 16px;
+      height: 20px;
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      animation: fallPetal linear infinite;
+      filter: blur(0.5px);
+    }
+    @keyframes fallPetal {
+      0% {
+        transform: translateY(-10vh) rotate(0deg) scale(0.2);
+        opacity: 0;
+      }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% {
+        transform: translateY(110vh) rotate(780deg) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    /* ===== ОСНОВНАЯ КАРТА ===== */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .cheat-card {
+      background: rgba(12, 5, 9, 0.85);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 56px;
+      border: 1px solid rgba(255, 100, 180, 0.08);
+      padding: 3.2rem 3.2rem 2.8rem;
+      box-shadow:
+        0 40px 120px rgba(0, 0, 0, 0.9),
+        0 0 100px rgba(200, 40, 130, 0.05),
+        inset 0 0 80px rgba(255, 80, 170, 0.02);
+      animation: floatCard 6s ease-in-out infinite;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cheat-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 58px;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(255, 100, 180, 0.1), transparent 40%, transparent 60%, rgba(255, 100, 180, 0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .cheat-card:hover {
+      transform: translateY(-8px) scale(1.005);
+      box-shadow:
+        0 50px 150px rgba(0, 0, 0, 0.95),
+        0 0 140px rgba(210, 50, 140, 0.12),
+        inset 0 0 100px rgba(255, 80, 170, 0.04);
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ===== ХЕДЕР С БУКВОЙ F ===== */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 2.2rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #d4408a, #901858, #6a1038);
+      box-shadow: 0 0 60px rgba(200, 40, 120, 0.3), 0 0 120px rgba(200, 40, 120, 0.1);
+      animation: pulseIcon 3.5s ease-in-out infinite;
+      border: 2px solid rgba(255, 130, 200, 0.15);
+      transition: box-shadow 0.4s ease;
+      position: relative;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+      font-family: 'Segoe UI', 'Poppins', sans-serif;
+      user-select: none;
+    }
+
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 100, 180, 0.2), transparent 50%, rgba(255, 100, 180, 0.1));
+      z-index: -1;
+      animation: spinGlow 8s linear infinite;
+    }
+
+    @keyframes spinGlow {
+      0% { transform: rotate(0deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1.1); }
+    }
+
+    .logo-icon:hover {
+      box-shadow: 0 0 80px rgba(220, 60, 150, 0.5), 0 0 150px rgba(220, 60, 150, 0.2);
+      transform: scale(1.05);
+    }
+
+    @keyframes pulseIcon {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(200, 40, 120, 0.3); }
+      50% { transform: scale(1.05); box-shadow: 0 0 100px rgba(220, 60, 150, 0.5); }
+    }
+
+    .logo-text h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffb8d4, #ff6b9d, #d44a8a, #b02a6a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 300% 300%;
+      animation: shimmer 4s ease-in-out infinite;
+      line-height: 1;
+      text-shadow: none;
+      filter: drop-shadow(0 0 30px rgba(200, 40, 120, 0.15));
+    }
+    .logo-text .tagline {
+      font-size: 0.85rem;
+      color: rgba(220, 160, 190, 0.4);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 300;
+      margin-top: 2px;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ===== СЛОГАН ===== */
+    .slogan {
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: #f0d8e4;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+      letter-spacing: 0.5px;
+    }
+    .slogan span {
+      background: linear-gradient(135deg, #ff8cb8, #ff6b9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .desc {
+      color: rgba(200, 160, 180, 0.5);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+      max-width: 90%;
+      letter-spacing: 0.2px;
+    }
+
+    /* ===== СТАТИСТИКА ===== */
+    .stats {
+      display: flex;
+      gap: 4rem;
+      margin-bottom: 2.8rem;
+      padding: 1.8rem 0;
+      border-top: 1px solid rgba(255, 100, 170, 0.04);
+      border-bottom: 1px solid rgba(255, 100, 170, 0.04);
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-item .number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff8cb8, #ff6b9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .stat-item .label {
+      font-size: 0.75rem;
+      color: rgba(200, 160, 180, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+      font-weight: 300;
+    }
+
+    /* ===== ЗАГОЛОВОК БЛОКА ===== */
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #f0d8e4;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.3px;
+    }
+    .section-sub {
+      color: rgba(200, 160, 180, 0.35);
+      font-size: 0.95rem;
+      margin-bottom: 1.4rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== СЕТКА ФИЧ ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 2.8rem;
+    }
+    .feature-card {
+      background: rgba(255, 80, 160, 0.03);
+      padding: 1.4rem 1.4rem 1.2rem;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 100, 170, 0.04);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(255, 80, 160, 0.05), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-card:nth-child(1) { animation: featureFloat 5s ease-in-out infinite; }
+    .feature-card:nth-child(2) { animation: featureFloat 5s ease-in-out infinite 0.5s; }
+    .feature-card:nth-child(3) { animation: featureFloat 5s ease-in-out infinite 1s; }
+    .feature-card:nth-child(4) { animation: featureFloat 5s ease-in-out infinite 1.5s; }
+
+    @keyframes featureFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(255, 70, 150, 0.08);
+      border-color: rgba(255, 120, 200, 0.15);
+      box-shadow: 0 12px 40px rgba(200, 40, 120, 0.06);
+    }
+
+    .feature-card .icon {
+      font-size: 1.8rem;
+      color: #ff8cb8;
+      margin-bottom: 8px;
+      display: block;
+      filter: drop-shadow(0 0 20px rgba(255, 100, 180, 0.1));
+    }
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f0d8e4;
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+    }
+    .feature-card p {
+      font-size: 0.85rem;
+      color: rgba(200, 160, 180, 0.45);
+      line-height: 1.5;
+    }
+
+    /* ===== КНОПКА ===== */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 1.1rem 3.5rem;
+      border-radius: 60px;
+      background: linear-gradient(145deg, #d44a8a, #901858);
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 45px rgba(180, 30, 100, 0.35);
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+      width: fit-content;
+      min-width: 220px;
+      text-transform: uppercase;
+    }
+
+    .btn-download::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.25), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .btn-download::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 62px;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 40%, transparent 60%, rgba(255, 255, 255, 0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .btn-download:hover::after {
+      opacity: 1;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 16px 60px rgba(200, 40, 120, 0.5);
+      background: linear-gradient(145deg, #e05a9a, #a02068);
+    }
+
+    .btn-download:hover::before {
+      opacity: 1;
+    }
+
+    .btn-download:active {
+      transform: scale(0.95);
+    }
+
+    .btn-download i {
+      font-size: 1.1rem;
+    }
+
+    /* ===== ФУТЕР ===== */
+    .footer {
+      margin-top: 2.8rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(255, 100, 170, 0.03);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .footer .copy {
+      font-size: 0.7rem;
+      color: rgba(180, 130, 160, 0.15);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .footer .social {
+      display: flex;
+      gap: 20px;
+    }
+    .footer .social a {
+      color: rgba(200, 150, 180, 0.15);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .footer .social a:hover {
+      color: #ff8cb8;
+      transform: translateY(-2px);
+    }
+
+    /* ===== АДАПТИВ ===== */
+    @media (max-width: 740px) {
+      .cheat-card { padding: 2rem 1.5rem; border-radius: 36px; }
+      .logo-icon { width: 64px; height: 64px; font-size: 2.2rem; }
+      .logo-text h1 { font-size: 2.4rem; }
+      .slogan { font-size: 1.4rem; }
+      .desc { max-width: 100%; font-size: 0.95rem; }
+      .stats { gap: 2rem; }
+      .stat-item .number { font-size: 2rem; }
+      .features-grid { grid-template-columns: 1fr; gap: 0.8rem; }
+      .btn-download { width: 100%; justify-content: center; padding: 1rem 2rem; font-size: 1rem; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 440px) {
+      .header { flex-direction: column; text-align: center; }
+      .logo-text h1 { font-size: 2rem; }
+      .slogan { font-size: 1.2rem; }
+      .stats { justify-content: center; gap: 1.5rem; }
+      .stat-item { align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ФОНОВЫЕ СВЕЧЕНИЯ -->
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="glow g3"></div>
+
+  <!-- ЛЕПЕСТКИ -->
+  <div class="petal-container" id="petalContainer"></div>
+
+  <!-- ОСНОВНОЙ КОНТЕЙНЕР -->
+  <div class="container">
+    <div class="cheat-card">
+
+      <!-- ХЕДЕР С БУКВОЙ F -->
+      <div class="header">
+        <div class="logo-icon">F</div>
+        <div class="logo-text">
+          <h1>FLOWERING</h1>
+          <div class="tagline">evade · cheat</div>
+        </div>
+      </div>
+
+      <!-- СЛОГАН -->
+      <div class="slogan">
+        Твоя игра <span>расцветает</span> с нами.
+      </div>
+      <div class="desc">
+        misc, визуалы и обход проверок в одном клиенте.<br>
+        Без лагов, без банов, без лишних вопросов.
+      </div>
+
+      <!-- СТАТИСТИКА -->
+      <div class="stats">
+        <div class="stat-item">
+          <span class="number" id="visitsCount">513</span>
+          <span class="label">Посещений этой страницы</span>
+        </div>
+        <div class="stat-item">
+          <span class="number" id="daysCount">147</span>
+          <span class="label">Дней активной работы нашего скрипта</span>
+        </div>
+      </div>
+
+      <!-- ЗАГОЛОВОК -->
+      <div class="section-title">
+        Узнай, что выделяет Flowering среди остальных.
+      </div>
+      <div class="section-sub">
+        Четыре вещи, ради которых к нам возвращаются.
+      </div>
+
+      <!-- СЕТКА ФИЧ -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="icon"><i class="fas fa-code"></i></span>
+          <h3>MISC</h3>
+          <p>Все функции так как и для легимитной игры, так и для rage соревнований.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon"><i class="fas fa-eye"></i></span>
+          <h3>Visuals</h3>
+          <p>Одни из лучших визуалов среди других: десятки модулей, тонкая настройка и полный комфорт в бою.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon"><i class="fas fa-shield"></i></span>
+          <h3>Античит</h3>
+          <p>Обход всех проверок игры. Постоянно следим за изменениями и работаем над тем, чтобы игра с нашим софтом не приводила к блокировкам.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon"><i class="fas fa-headset"></i></span>
+          <h3>Поддержка 24/7</h3>
+          <p>Живая команда и приоритетная поддержка: менеджер в сети круглосуточно, помощники в чате и прямо в чите.</p>
+        </div>
+      </div>
+
+      <!-- КНОПКА -->
+      <button class="btn-download" id="actionBtn">
+        <i class="fas fa-download"></i> Скачать
+      </button>
+
+      <!-- ФУТЕР -->
+      <div class="footer">
+        <span class="copy">© 2026 FLOWERING · all rights reserved</span>
+        <div class="social">
+          <a href="#"><i class="fab fa-discord"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // =============================================
+      // 1. ЛЕПЕСТКИ
+      // =============================================
+      const container = document.getElementById('petalContainer');
+      const petalCount = 55;
+
+      function createPetal() {
+        const el = document.createElement('div');
+        el.className = 'petal';
+        const size = 10 + Math.random() * 18;
+        el.style.width = size + 'px';
+        el.style.height = (size * 1.35) + 'px';
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = 9 + Math.random() * 16 + 's';
+        el.style.animationDelay = Math.random() * 18 + 's';
+        const hue = 320 + Math.random() * 35;
+        const sat = 55 + Math.random() * 35;
+        const lig = 45 + Math.random() * 35;
+        el.style.background = `radial-gradient(circle, hsl(${hue}, ${sat}%, ${lig}%), hsl(${hue-10}, ${sat-10}%, ${lig-25}%))`;
+        el.style.boxShadow = `0 0 ${15 + Math.random() * 30}px rgba(255, 80, 180, ${0.06 + Math.random() * 0.12})`;
+        return el;
+      }
+
+      for (let i = 0; i < petalCount; i++) {
+        container.appendChild(createPetal());
+      }
+
+      // =============================================
+      // 2. ЭФФЕКТ ВОЛНЫ НА КНОПКЕ
+      // =============================================
+      const btn = document.getElementById('actionBtn');
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        btn.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+        btn.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+      });
+
+      // =============================================
+      // 3. АНИМАЦИЯ ЦИФР
+      // =============================================
+      function animateNumber(element, target, duration = 2200) {
+        const start = 0;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          element.textContent = current.toLocaleString();
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            element.textContent = target.toLocaleString();
+          }
+        }
+        requestAnimationFrame(update);
+      }
+
+      window.addEventListener('load', () => {
+        const visits = document.getElementById('visitsCount');
+        const days = document.getElementById('daysCount');
+        animateNumber(visits, 513, 2400);
+        animateNumber(days, 147, 2000);
+      });
+
+      // =============================================
+      // 4. КНОПКА
+      // =============================================
+      btn.addEventListener('click', function() {
+        if (this.classList.contains('loading')) return;
+        this.classList.add('loading');
+        const original = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
+
+        setTimeout(() => {
+          this.innerHTML = '<i class="fas fa-check"></i> Готово!';
+          this.style.background = 'linear-gradient(145deg, #2d8a4e, #1a6a3a)';
+          this.style.boxShadow = '0 8px 45px rgba(40, 180, 80, 0.3)';
+
+          setTimeout(() => {
+            this.innerHTML = original;
+            this.style.background = '';
+            this.style.boxShadow = '';
+            this.classList.remove('loading');
+          }, 2200);
+        }, 1600);
+      });
+
+      console.log('🌸 FLOWERING · Evade Cheat Page Loaded');
+
+    })();
+  </script>
+
+</body>
+</html>
